@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Gallery;
+use App\Http\Requests\CreateGalleryRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class GalleryController extends Controller
 {
@@ -14,7 +18,9 @@ class GalleryController extends Controller
      */
     public function index()
     {
-        //
+        $galleries=Gallery::orderBy('id', 'DESC')->get();
+        // dd($galleries);
+        return view('Admin.gallery.index', compact('galleries'));
     }
 
     /**
@@ -24,7 +30,7 @@ class GalleryController extends Controller
      */
     public function create()
     {
-        //
+        return view('Admin.gallery.create');
     }
 
     /**
@@ -33,9 +39,19 @@ class GalleryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateGalleryRequest $request)
     {
-        //
+        $image=$request->file('image_url');
+        $imageName = time().'.'.$image->getClientOriginalExtension();
+        $gallery=new Gallery();
+        $gallery->user_id=Auth::id();
+        $gallery->image_url=$imageName;
+        $save=$gallery->save();
+        if ($save) {
+            $image->move(public_path('images'), $imageName);
+        }
+        $request->session()->flash('message', 'images uploaded successfully');
+        return redirect()->route('galleries.index');
     }
 
     /**
@@ -57,7 +73,7 @@ class GalleryController extends Controller
      */
     public function edit(Gallery $gallery)
     {
-        //
+        return view('Admin.category.edit', compact('gallery'));
     }
 
     /**
@@ -80,6 +96,9 @@ class GalleryController extends Controller
      */
     public function destroy(Gallery $gallery)
     {
-        //
+        File::delete(public_path('images/'.$gallery->image_url));
+        $gallery->delete();
+        session()->flash('delete-message', 'image deleted successfully');
+        return redirect()->route('galleries.index');
     }
 }
