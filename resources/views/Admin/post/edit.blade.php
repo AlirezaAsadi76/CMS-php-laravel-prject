@@ -8,13 +8,14 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        Post - create
+                        Post - edit
 
                     </div>
 
                     <div class="card-body">
-                        <form action="{{ route('posts.store') }}" method="post" enctype="multipart/form-data">
+                        <form action="{{ route('posts.update',['post'=>$post->id]) }}" method="post" enctype="multipart/form-data">
                             @csrf
+                            @method('put')
                             <div class="form-group" @if ($errors->has('thumbnail')) has-error @endif>
                                 <label for="thumbnail">Thumbnail</label>
                                 <input type="text" name="thumbnail" id="thumbnail" class="form-control"
@@ -32,16 +33,16 @@
                                 @endif
                             </div>
                             <div class="form-group" @if ($errors->has('sub_title')) has-error @endif>
-                                <label for="sub_title">Sub_Title</label>
+                                <label for="sub_title">sub_Title</label>
                                 <input type="text" name="sub_title" id="sub_title" class="form-control"
-                                value="{{ $post->Sub_title }}" placeholder="Sub_title">
+                                value="{{ $post->sub_title }}" placeholder="sub_title">
                                 @if ($errors->has('sub_title'))
                                     <span class="help-block">{{ $errors->first('sub_title') }}</span>
                                 @endif
                             </div>
                             <div class="form-group" @if ($errors->has('details')) has-error @endif>
                                 <label for="details">Details</label>
-                                <textarea name="details" id="details" class="form-control" value="{{ $post->details }}" placeholder="Details"></textarea>
+                                <textarea name="details" id="details" class="form-control"  placeholder="Details">{{$post->details}}</textarea>
                                 @if ($errors->has('details'))
                                     <span class="help-block">{{ $errors->first('details') }}</span>
                                 @endif
@@ -71,7 +72,7 @@
                                     @endif>Draft</option>
                                 </select>
                             </div>
-                            <input type="submit" value="Create" class="btn btn-sm btn-primary">
+                            <input type="submit" value="Update" class="btn btn-sm btn-warning">
                         </form>
                     </div>
                 </div>
