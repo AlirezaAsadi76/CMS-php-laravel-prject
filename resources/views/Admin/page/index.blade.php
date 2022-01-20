@@ -24,8 +24,8 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    Gallery - List
-                    <a href="{{ route('galleries.create') }}" class="btn btn-sm btn-primary float-right">Add new</a>
+                    Page - List
+                    <a href="{{ route('pages.create') }}" class="btn btn-sm btn-primary float-right">Add new</a>
                 </div>
 
                 <div class="card-body">
@@ -33,19 +33,19 @@
                         <thead>
                             <tr>
                                 <td scope='col' width='60'>#</td>
-                                <td scope='col'>Url</td>
+                                <td scope='col'>Title</td>
                                 <td scope='col' width='200'>Created By</td>
                                 <td scope='col' width='129'>Action</td>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($galleries as $cat)
+                            @foreach ($pages as $cat)
                             <tr>
                                 <th>{{ $cat->id }}</th>
-                                <th>{{ asset('images/'.$cat->image_url) }}</th>
+                                <th>{{ $cat->title }}</th>
                                 <th>{{ $cat->user->name }}</th>
-                                <th><a href="{{ route('galleries.edit',['gallery'=>$cat->id]) }}" class="btn btn-sm btn-primary">Edit</a>
-                                    <form action="{{ route('galleries.destroy',['gallery'=>$cat->id]) }}" method="post" style="display: inline">
+                                <th><a href="{{ route('pages.edit',['page'=>$cat->id]) }}" class="btn btn-sm btn-primary">Edit</a>
+                                    <form action="{{ route('pages.destroy',['page'=>$cat->id]) }}" method="post" style="display: inline">
                                         @csrf
                                         @method('delete')
                                         <input type="submit" value="delete" class="btn btn-sm btn-danger">
