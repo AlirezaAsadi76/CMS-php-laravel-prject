@@ -42,7 +42,7 @@ class PostController extends Controller
         $post->save();
         $post->categories()->sync($request->category_id,false);
         session()->flash("message","Post created successfully");
-        return redirect()->route('Admin.post.index');
+        return redirect()->route('posts.index');
 
     }
 

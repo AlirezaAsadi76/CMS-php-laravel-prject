@@ -50,11 +50,13 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto py-4 py-lg-0">
+
                         @php($pages=GetPages())
                         @foreach ($pages as $page )
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ route('web.page',['slug'=>$page->slug]) }}">{{ $page->title }}</a></li>
                         @endforeach
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ route('web.contact.show') }}">Contact</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ route('web.index') }}">Home</a></li>
                     </ul>
                 </div>
             </div>
